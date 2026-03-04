@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Equipamentos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-4 mb-5">
+
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            Cadastro de Equipamentos
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST" action="/salvar">
+
+                <!-- DADOS GERAIS -->
+                <h5 class="mb-3">Dados Gerais</h5>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label>Cliente</label>
+                        <input type="text" name="cliente" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>Local</label>
+                        <input type="text" name="local" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>Setor</label>
+                        <input type="text" name="setor" class="form-control" required>
+                    </div>
+                </div>
+
+                <hr>
+
+                <!-- ================= CONCENTRADORES ================= -->
+                <div class="mb-3">
+                    <label>Quantidade de Concentradores</label>
+                    <input type="number" min="0" class="form-control"
+                           name="qtd_concentrador"
+                           onchange="gerarConcentradores(this.value)">
+                </div>
+
+                <div id="concentradores"></div>
+
+                <!-- ================= MEDIDORES ================= -->
+                <div class="mb-3 mt-4">
+                    <label>Quantidade de Medidores</label>
+                    <input type="number" min="0" class="form-control"
+                           name="qtd_medidor"
+                           onchange="gerarMedidores(this.value)">
+                </div>
+
+                <div id="medidores"></div>
+
+                <!-- ================= NOBREAK ================= -->
+                <div class="mb-3 mt-4">
+                    <label>Quantidade de Nobreak</label>
+                    <input type="number" min="0" class="form-control"
+                           name="qtd_nobreak"
+                           onchange="gerarNobreaks(this.value)">
+                </div>
+
+                <div id="nobreaks"></div>
+
+                <!-- ================= RADIOS ================= -->
+                <div class="mb-3 mt-4">
+                    <label>Quantidade de Rádios</label>
+                    <input type="number" min="0" class="form-control"
+                           name="qtd_radio"
+                           onchange="gerarRadios(this.value)">
+                </div>
+
+                <div id="radios"></div>
+
+                <button type="submit" class="btn btn-success w-100 mt-4">
+                    Salvar Informações
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+// ================= CONCENTRADORES =================
+
+function gerarConcentradores(qtd) {
+    let div = document.getElementById("concentradores");
+    div.innerHTML = "";
+
+    for (let i = 1; i <= qtd; i++) {
+        div.innerHTML += `
+        <div class="card mt-3 p-3">
+            <h6>Concentrador ${i}</h6>
+
+            <select class="form-control mb-2" name="modelo_${i}">
+                <option value="">Modelo</option>
+                <option value="Raspberry Pi 5 Model B Rev 1.0">
+                    Raspberry Pi 5 Model B Rev 1.0
+                </option>
+                <option value="Raspberry Pi 4">
+                    Raspberry Pi 4
+                </option>
+            </select>
+
+            <input type="text" class="form-control mb-2"
+                   placeholder="Número de Série"
+                   name="numero_serie_${i}">
+
+            <input type="text" class="form-control mb-2"
+                   placeholder="Tag Name (Ex: EFIZ-PC-01)"
+                   name="tag_name_${i}">
+
+            <input type="text" class="form-control mb-2"
+                   placeholder="Client Cod (Ex: client16_1)"
+                   name="client_cod_${i}">
+
+            <select class="form-control mb-2"
+                    name="tipo_eth_${i}"
+                    onchange="mostrarETH(this, ${i})">
+                <option value="">Tipo Comunicação ETH</option>
+                <option value="Via cabo">Via cabo</option>
+                <option value="Wi-Fi">Wi-Fi</option>
+            </select>
+
+            <div id="extra_eth_${i}"></div>
+        </div>
+        `;
+    }
+}
+
+function mostrarETH(select, i) {
+    let div = document.getElementById("extra_eth_" + i);
+    div.innerHTML = "";
+
+    if (select.value === "Via cabo") {
+        div.innerHTML = `
+            <input type="text" class="form-control mb-2"
+                   placeholder="Faixa IP"
+                   name="faixa_ip_${i}">
+        `;
+    }
+
+    if (select.value === "Wi-Fi") {
+        div.innerHTML = `
+            <input type="text" class="form-control mb-2"
+                   placeholder="Usuário"
+                   name="usuario_wifi_${i}">
+            <input type="text" class="form-control mb-2"
+                   placeholder="Senha"
+                   name="senha_wifi_${i}">
+        `;
+    }
+}
+
+// ================= MEDIDORES =================
+
+function gerarMedidores(qtd) {
+    let div = document.getElementById("medidores");
+    div.innerHTML = "";
+
+    for (let i = 1; i <= qtd; i++) {
+        div.innerHTML += `
+        <div class="card mt-3 p-3">
+            <h6>Medidor ${i}</h6>
+
+            <input class="form-control mb-2"
+                   placeholder="Tag Name (Ex: EFIZ-MD-01)"
+                   name="tag_name_medidor_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="Label (máx 12 caracteres)"
+                   maxlength="12"
+                   name="label_${i}">
+
+            <select class="form-control mb-2"
+                    name="qual_medidor_${i}"
+                    onchange="mostrarEnergia(this, ${i})">
+                <option value="">Qual Medidor</option>
+                <option value="Energia">Energia</option>
+                <option value="Temperatura">Temperatura</option>
+                <option value="Pressão">Pressão</option>
+            </select>
+
+            <div id="energia_${i}"></div>
+        </div>
+        `;
+    }
+}
+
+function mostrarEnergia(select, i) {
+    let div = document.getElementById("energia_" + i);
+    div.innerHTML = "";
+
+    if (select.value === "Energia") {
+        div.innerHTML = `
+            <select class="form-control mb-2"
+                    name="tipo_medidor_${i}"
+                    onchange="mostrarUP(this, ${i})">
+                <option value="">Tipo de Medidor</option>
+                <option value="UPENERGY">UPENERGY</option>
+                <option value="KRON-Multimedidor">KRON-Multimedidor</option>
+                <option value="CCK-Multimedidor">CCK- Multimedidor</option>
+                <option value="CCK-ABNT">CCK- ABNT</option>
+                <option value="IMS-ABNT">IMS-ABNT</option>
+                <option value="ION">ION</option>
+            </select>
+
+            <div id="up_${i}"></div>
+        `;
+    }
+}
+
+function mostrarUP(select, i) {
+    let div = document.getElementById("up_" + i);
+    div.innerHTML = "";
+
+    if (select.value === "UPENERGY") {
+        div.innerHTML = `
+            <input class="form-control mb-2"
+                   placeholder="Serial number ID1 (Ex: 012026001)"
+                   name="id1_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="Serial name ID2 (Ex: A001A)"
+                   name="id2_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="Device Address (Ex: 6017)"
+                   name="device_address_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="TC (Ex: 250/5)"
+                   name="tc_${i}"
+                   onchange="calcularKC(this, ${i})">
+
+            <input class="form-control mb-2"
+                   placeholder="Relação KC"
+                   name="kc_${i}"
+                   id="kc_${i}"
+                   readonly>
+
+            <input class="form-control mb-2"
+                   placeholder="Relação KT (Ex: 1)"
+                   name="kt_${i}">
+
+            <select class="form-control mb-2"
+                    name="tensao_${i}">
+                <option value="">Tensão F/N</option>
+                <option value="127">127</option>
+                <option value="220">220</option>
+            </select>
+        `;
+    }
+}
+
+function calcularKC(input, i) {
+    let valor = input.value;
+
+    if (valor.includes("/")) {
+        let partes = valor.split("/");
+        let num = parseFloat(partes[0]);
+        let den = parseFloat(partes[1]);
+
+        if (!isNaN(num) && !isNaN(den) && den !== 0) {
+            document.getElementById("kc_" + i).value = num / den;
+        }
+    }
+}
+
+function mostrarConversor(select, i) {
+    let div = document.getElementById("extra_med_" + i);
+    div.innerHTML = "";
+
+    if (select.value === "Cabeado") {
+        div.innerHTML = `
+            <input class="form-control mb-2"
+                   placeholder="Qual Conversor"
+                   name="qual_conversor_${i}">
+        `;
+    }
+}
+
+// ================= NOBREAK =================
+
+function gerarNobreaks(qtd) {
+    let div = document.getElementById("nobreaks");
+    div.innerHTML = "";
+
+    for (let i = 1; i <= qtd; i++) {
+        div.innerHTML += `
+        <div class="card mt-3 p-3">
+            <h6>Nobreak ${i}</h6>
+
+            <input class="form-control mb-2"
+                   placeholder="Qual Nobreak"
+                   name="qual_nobreak_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="Fabricante"
+                   name="fabricante_nobreak_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="Tag"
+                   name="tag_nobreak_${i}">
+        </div>
+        `;
+    }
+}
+
+// ================= RADIOS =================
+
+function gerarRadios(qtd) {
+    let div = document.getElementById("radios");
+    div.innerHTML = "";
+
+    for (let i = 1; i <= qtd; i++) {
+        div.innerHTML += `
+        <div class="card mt-3 p-3">
+            <h6>Rádio ${i}</h6>
+
+            <input class="form-control mb-2"
+                   placeholder="Qual Rádio"
+                   name="qual_radio_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="Fabricante"
+                   name="fabricante_radio_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="Tag"
+                   name="tag_radio_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="Endereço"
+                   name="endereco_radio_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="Canal"
+                   name="canal_radio_${i}">
+        </div>
+        `;
+    }
+}
+
+</script>
+
+</body>
+</html>
