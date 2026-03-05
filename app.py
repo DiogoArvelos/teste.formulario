@@ -11,12 +11,16 @@ app = Flask(__name__)
 # ==========================================
 
 def conectar_planilha(nome_aba):
-    cred_json = os.environ.get("GOOGLE_CREDENTIALS")
-    cred_dict = json.loads(cred_json)
+    creds_json = json.loads(os.environ["GOOGLE_CREDENTIALS"])
 
-    scopes = ["https://www.googleapis.com/auth/spreadsheets"]
+    scope = [
+        "https://www.googleapis.com/auth/spreadsheets",
+        "https://www.googleapis.com/auth/drive"
+    ]
+
     credentials = Credentials.from_service_account_info(
-        cred_dict, scopes=scopes
+        creds_json,
+        scopes=scope
     )
 
     client = gspread.authorize(credentials)
@@ -147,3 +151,4 @@ def salvar():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
