@@ -1,77 +1,46 @@
 from flask import Flask, render_template, request, redirect
-from openpyxl import Workbook, load_workbook
+import gspread
+from google.oauth2.service_account import Credentials
 import os
+import json
 
 app = Flask(__name__)
 
-CAMINHO_ARQUIVO = r"dados.xlsx"
+# ==========================================
+# CONECTAR AO GOOGLE SHEETS
+# ==========================================
+
+def conectar_planilha(nome_aba):
+    cred_json = os.environ.get("GOOGLE_CREDENTIALS")
+    cred_dict = json.loads(cred_json)
+
+    scopes = ["https://www.googleapis.com/auth/spreadsheets"]
+    credentials = Credentials.from_service_account_info(
+        cred_dict, scopes=scopes
+    )
+
+    client = gspread.authorize(credentials)
+
+    planilha = client.open("Sistema Medidores").worksheet(nome_aba)
+
+    return planilha
 
 
-# ==============================
-# CRIAR ARQUIVO SE NÃO EXISTIR
-# ==============================
-def criar_planilha():
-    wb = Workbook()
-
-    # Remove aba padrão
-    wb.remove(wb.active)
-
-    # ================= MEDIDORES =================
-    ws_med = wb.create_sheet("Medidores")
-    ws_med.append([
-        "Cliente", "Local", "Setor",
-        "Tag Name", "Label",
-        "Qual Medidor", "Tipo Medidor",
-        "ID1", "ID2", "Device Address",
-        "TC", "KC", "KT", "Tensão"
-    ])
-
-    # ================= CONCENTRADORES =================
-    ws_conc = wb.create_sheet("Concentradores")
-    ws_conc.append([
-        "Cliente", "Local", "Setor",
-        "Modelo", "Número de Série",
-        "Tag Name", "Client Cod",
-        "Tipo ETH", "Faixa IP",
-        "Usuário WiFi", "Senha WiFi"
-    ])
-
-    # ================= NOBREAKS =================
-    ws_nob = wb.create_sheet("Nobreaks")
-    ws_nob.append([
-        "Cliente", "Local", "Setor",
-        "Qual Nobreak", "Fabricante", "Tag"
-    ])
-
-    # ================= RADIOS =================
-    ws_rad = wb.create_sheet("Radios")
-    ws_rad.append([
-        "Cliente", "Local", "Setor",
-        "Qual Radio", "Fabricante",
-        "Tag", "Endereço", "Canal"
-    ])
-
-    wb.save(CAMINHO_ARQUIVO)
-
-
-# ==============================
+# ==========================================
 # ROTA PRINCIPAL
-# ==============================
+# ==========================================
+
 @app.route("/")
 def index():
     return render_template("index.html")
 
 
-# ==============================
+# ==========================================
 # SALVAR DADOS
-# ==============================
+# ==========================================
+
 @app.route("/salvar", methods=["POST"])
 def salvar():
-
-    if not os.path.exists(CAMINHO_ARQUIVO):
-        criar_planilha()
-
-    wb = load_workbook(CAMINHO_ARQUIVO)
 
     cliente = request.form.get("cliente")
     local = request.form.get("local")
@@ -80,7 +49,8 @@ def salvar():
     # ====================================================
     # ================= MEDIDORES ========================
     # ====================================================
-    ws_med = wb["Medidores"]
+
+    ws_med = conectar_planilha("Medidores")
     qtd_medidores = int(request.form.get("qtd_medidor") or 0)
 
     for i in range(1, qtd_medidores + 1):
@@ -88,7 +58,7 @@ def salvar():
         qual_medidor = request.form.get(f"qual_medidor_{i}")
         tipo_medidor = request.form.get(f"tipo_medidor_{i}")
 
-        ws_med.append([
+        ws_med.append_row([
             cliente,
             local,
             setor,
@@ -108,14 +78,15 @@ def salvar():
     # ====================================================
     # ================= CONCENTRADORES ===================
     # ====================================================
-    ws_conc = wb["Concentradores"]
+
+    ws_conc = conectar_planilha("Concentradores")
     qtd_conc = int(request.form.get("qtd_concentrador") or 0)
 
     for i in range(1, qtd_conc + 1):
 
         tipo_eth = request.form.get(f"tipo_eth_{i}")
 
-        ws_conc.append([
+        ws_conc.append_row([
             cliente,
             local,
             setor,
@@ -132,11 +103,13 @@ def salvar():
     # ====================================================
     # ================= NOBREAKS =========================
     # ====================================================
-    ws_nob = wb["Nobreaks"]
+
+    ws_nob = conectar_planilha("Nobreaks")
     qtd_nob = int(request.form.get("qtd_nobreak") or 0)
 
     for i in range(1, qtd_nob + 1):
-        ws_nob.append([
+
+        ws_nob.append_row([
             cliente,
             local,
             setor,
@@ -148,11 +121,13 @@ def salvar():
     # ====================================================
     # ================= RADIOS ===========================
     # ====================================================
-    ws_rad = wb["Radios"]
+
+    ws_rad = conectar_planilha("Radios")
     qtd_rad = int(request.form.get("qtd_radio") or 0)
 
     for i in range(1, qtd_rad + 1):
-        ws_rad.append([
+
+        ws_rad.append_row([
             cliente,
             local,
             setor,
@@ -163,16 +138,12 @@ def salvar():
             request.form.get(f"canal_radio_{i}")
         ])
 
-    wb.save(CAMINHO_ARQUIVO)
-
     return redirect("/")
 
 
-# ==============================
+# ==========================================
 # EXECUTAR
-# ==============================
-if __name__ == "__main__":
-    if not os.path.exists(CAMINHO_ARQUIVO):
-        criar_planilha()
+# ==========================================
 
+if __name__ == "__main__":
     app.run(debug=True)
