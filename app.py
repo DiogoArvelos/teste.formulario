@@ -25,7 +25,7 @@ def conectar_planilha(nome_aba):
 
     client = gspread.authorize(credentials)
 
-    planilha = client.open("Sistema Medidores").worksheet(nome_aba)
+    planilha = client.open_by_key("1FnxxnmIe8-to-Fek918vUUBc9asCIbLCJaOcUAjGoz4").worksheet(nome_aba)
 
     return planilha
 
@@ -151,4 +151,5 @@ def salvar():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
