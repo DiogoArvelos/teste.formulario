@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect
 import gspread
 import json
 import os
-from oauth2client.service_account import ServiceAccountCredentials
+from google.oauth2.service_account import Credentials
 
 app = Flask(__name__)
 
@@ -12,25 +12,30 @@ app = Flask(__name__)
 def conectar_planilha(nome_aba):
 
     scope = [
-        "https://spreadsheets.google.com/feeds",
+        "https://www.googleapis.com/auth/spreadsheets",
         "https://www.googleapis.com/auth/drive"
     ]
 
     if "GOOGLE_CREDENTIALS" in os.environ:
         credenciais_dict = json.loads(os.environ["GOOGLE_CREDENTIALS"])
-        creds = ServiceAccountCredentials.from_json_keyfile_dict(
-            credenciais_dict, scope
+
+        creds = Credentials.from_service_account_info(
+            credenciais_dict,
+            scopes=scope
         )
     else:
-        creds = ServiceAccountCredentials.from_json_keyfile_name(
-            "credentials.json", scope
+        creds = Credentials.from_service_account_file(
+            "credentials.json",
+            scopes=scope
         )
 
     client = gspread.authorize(creds)
-    planilha = client.open_by_key("1FnxxnmIe8-to-Fek918vUUBc9asCIbLCJaOcUAjGoz4").worksheet(nome_aba)
+
+    planilha = client.open_by_key(
+        "1FnxxnmIe8-to-Fek918vUUBc9asCIbLCJaOcUAjGoz4"
+    ).worksheet(nome_aba)
 
     return planilha
-
 
 # ==============================
 # ROTA PRINCIPAL
