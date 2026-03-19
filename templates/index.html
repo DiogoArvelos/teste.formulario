@@ -181,7 +181,7 @@ function gerarMedidores(qtd) {
                    name="tag_name_medidor_${i}">
 
             <input class="form-control mb-2"
-                   placeholder="Label (Ex: JAT-P1BC)"
+                   placeholder="Label (máx 12 caracteres)"
                    maxlength="12"
                    name="label_${i}">
 
@@ -226,7 +226,8 @@ function mostrarEnergia(select, i) {
 function mostrarUP(select, i) {
     let div = document.getElementById("up_" + i);
     div.innerHTML = "";
-
+    
+    // ================= UPENERGY =================
     if (select.value === "UPENERGY") {
         div.innerHTML = `
             <input class="form-control mb-2"
@@ -262,6 +263,39 @@ function mostrarUP(select, i) {
                 <option value="127">127</option>
                 <option value="220">220</option>
             </select>
+        `;
+    }
+
+    // ================= KRON =================
+    if (select.value === "KRON-Multimedidor") {
+        div.innerHTML = `
+            <input class="form-control mb-2"
+                   placeholder="Threshold (Ex: 0.02)"
+                   name="threshold_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="Endereço (Ex: 2)"
+                   name="device_address_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="Serial (Ex: 9.6 8N1)"
+                   name="serial_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="TI (Ex: 15)"
+                   name="ti_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="TL (Ex: 0)"
+                   name="tl_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="TC (Ex: 6.00)"
+                   name="tc_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="TP (Ex: 1.00)"
+                   name="tp_${i}">
         `;
     }
 }
@@ -358,5 +392,4 @@ function gerarRadios(qtd) {
 </script>
 
 </body>
-
 </html>
