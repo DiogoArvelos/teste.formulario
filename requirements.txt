@@ -1,5 +1,4 @@
-flask
-gunicorn
+Flask
 gspread
 google-auth
-oauth2client
+gunicorn
