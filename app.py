@@ -152,6 +152,34 @@ def salvar():
 
     if linhas_conc:
         ws_conc.append_rows(linhas_conc)
+    # ====================================================
+    # ================= CONVERSORES =======================
+    # ====================================================
+    ws_conv = conectar_planilha("Conversores")
+
+    try:
+        qtd_conv = int(request.form.get("qtd_conversor", 0))
+    except:
+        qtd_conv = 0
+
+    linhas_conv = []
+
+    for i in range(1, qtd_conv + 1):
+        linhas_conv.append([
+            cliente,
+            local,
+            setor,
+            request.form.get(f"tag_conversor_{i}"),
+            request.form.get(f"ip_conversor_{i}"),
+            request.form.get(f"fabricante_conversor_{i}"),
+            request.form.get(f"mac_conversor_{i}"),
+            request.form.get(f"baudrate_{i}"),
+            request.form.get(f"endereco_id_{i}"),
+            request.form.get(f"paridade_{i}")
+        ])
+
+    if linhas_conv:
+        ws_conv.append_rows(linhas_conv)
 
     # ====================================================
     # ================= NOBREAKS =========================
@@ -214,5 +242,3 @@ def salvar():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
-
-
