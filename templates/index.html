@@ -60,7 +60,15 @@
                 </div>
 
                 <div id="medidores"></div>
+                <!-- ================= CONVERSORES ================= -->
+                <div class="mb-3 mt-4">
+                    <label>Quantidade de Conversores</label>
+                    <input type="number" min="0" class="form-control"
+                        name="qtd_conversor"
+                        onchange="gerarConversores(this.value)">
+                </div>
 
+                <div id="conversores"></div>
                 <!-- ================= NOBREAK ================= -->
                 <div class="mb-3 mt-4">
                     <label>Quantidade de Nobreak</label>
@@ -326,7 +334,48 @@ function mostrarConversor(select, i) {
         `;
     }
 }
+// ================= CONVERSORES =================
 
+function gerarConversores(qtd) {
+    let div = document.getElementById("conversores");
+    div.innerHTML = "";
+
+    for (let i = 1; i <= qtd; i++) {
+        div.innerHTML += `
+        <div class="card mt-3 p-3">
+            <h6>Conversor ${i}</h6>
+
+            <input class="form-control mb-2"
+                   placeholder="TAG (Ex: EFIZ-CV-02)"
+                   name="tag_conversor_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="IP (Ex: 192.168.100.3)"
+                   name="ip_conversor_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="Fabricante (Ex: RS 485)"
+                   name="fabricante_conversor_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="MAC (Ex: 00:1A:C2:7B:00:48)"
+                   name="mac_conversor_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="Baud Rate (Ex: 9600)"
+                   name="baudrate_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="Endereço ID (Ex: 1)"
+                   name="endereco_id_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="Paridade (Ex: none)"
+                   name="paridade_${i}">
+        </div>
+        `;
+    }
+}
 // ================= NOBREAK =================
 
 function gerarNobreaks(qtd) {
