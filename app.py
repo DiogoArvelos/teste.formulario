@@ -103,7 +103,7 @@ def salvar():
                 request.form.get(f"tc_{i}"),
                 "",  # kc
                 "",  # kt
-                "",  # tensao
+                request.form.get(f"tensao_{i}"), 
                 request.form.get(f"threshold_{i}"),
                 request.form.get(f"serial_{i}"),
                 request.form.get(f"ti_{i}"),
