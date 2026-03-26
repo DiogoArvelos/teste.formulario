@@ -278,34 +278,41 @@ function mostrarUP(select, i) {
     if (select.value === "KRON-Multimedidor") {
         div.innerHTML = `
             <input class="form-control mb-2"
-                   placeholder="Threshold (Ex: 0.02)"
-                   name="threshold_${i}">
+                placeholder="Threshold (Ex: 0.02)"
+                name="threshold_${i}">
 
             <input class="form-control mb-2"
-                   placeholder="Endereço (Ex: 2)"
-                   name="device_address_${i}">
+                placeholder="Endereço (Ex: 2)"
+                name="device_address_${i}">
 
             <input class="form-control mb-2"
-                   placeholder="Serial (Ex: 9.6 8N1)"
-                   name="serial_${i}">
+                placeholder="Serial (Ex: 9.6 8N1)"
+                name="serial_${i}">
 
             <input class="form-control mb-2"
-                   placeholder="TI (Ex: 15)"
-                   name="ti_${i}">
+                placeholder="TI (Ex: 15)"
+                name="ti_${i}">
 
             <input class="form-control mb-2"
-                   placeholder="TL (Ex: 0)"
-                   name="tl_${i}">
+                placeholder="TL (Ex: 0)"
+                name="tl_${i}">
 
             <input class="form-control mb-2"
-                   placeholder="TC (Ex: 6.00)"
-                   name="tc_${i}">
+                placeholder="TC (Ex: 6.00)"
+                name="tc_${i}">
 
             <input class="form-control mb-2"
-                   placeholder="TP (Ex: 1.00)"
-                   name="tp_${i}">
+                placeholder="TP (Ex: 1.00)"
+                name="tp_${i}">
+
+            <select class="form-control mb-2"
+                    name="tensao_${i}">
+                <option value="">Tensão F/N</option>
+                <option value="127">127</option>
+                <option value="220">220</option>
+            </select>
         `;
-    }
+    }   
 }
 
 function calcularKC(input, i) {
@@ -437,8 +444,16 @@ function gerarRadios(qtd) {
         `;
     }
 }
-
+// ================= BLOQUEAR ENTER =================
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelector("form").addEventListener("keydown", function (e) {
+            if (e.key === "Enter" && e.target.tagName !== "TEXTAREA") {
+                e.preventDefault();
+            }
+        });
+    });
 </script>
 
 </body>
+
 </html>
