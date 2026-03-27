@@ -1,459 +1,244 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Cadastro de Equipamentos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-
-<body class="bg-light">
-
-<div class="container mt-4 mb-5">
-
-    <div class="card shadow">
-        <div class="card-header bg-primary text-white">
-            Cadastro de Equipamentos
-        </div>
-
-        <div class="card-body">
-
-            <form method="POST" action="/salvar">
-
-                <!-- DADOS GERAIS -->
-                <h5 class="mb-3">Dados Gerais</h5>
-
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <label>Cliente</label>
-                        <input type="text" name="cliente" class="form-control" required>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label>Local</label>
-                        <input type="text" name="local" class="form-control" required>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label>Setor</label>
-                        <input type="text" name="setor" class="form-control" required>
-                    </div>
-                </div>
-
-                <hr>
-
-                <!-- ================= CONCENTRADORES ================= -->
-                <div class="mb-3">
-                    <label>Quantidade de Concentradores</label>
-                    <input type="number" min="0" class="form-control"
-                           name="qtd_concentrador"
-                           onchange="gerarConcentradores(this.value)">
-                </div>
-
-                <div id="concentradores"></div>
-
-                <!-- ================= MEDIDORES ================= -->
-                <div class="mb-3 mt-4">
-                    <label>Quantidade de Medidores</label>
-                    <input type="number" min="0" class="form-control"
-                           name="qtd_medidor"
-                           onchange="gerarMedidores(this.value)">
-                </div>
-
-                <div id="medidores"></div>
-                <!-- ================= CONVERSORES ================= -->
-                <div class="mb-3 mt-4">
-                    <label>Quantidade de Conversores</label>
-                    <input type="number" min="0" class="form-control"
-                        name="qtd_conversor"
-                        onchange="gerarConversores(this.value)">
-                </div>
-
-                <div id="conversores"></div>
-                <!-- ================= NOBREAK ================= -->
-                <div class="mb-3 mt-4">
-                    <label>Quantidade de Nobreak</label>
-                    <input type="number" min="0" class="form-control"
-                           name="qtd_nobreak"
-                           onchange="gerarNobreaks(this.value)">
-                </div>
-
-                <div id="nobreaks"></div>
-
-                <!-- ================= RADIOS ================= -->
-                <div class="mb-3 mt-4">
-                    <label>Quantidade de Rádios</label>
-                    <input type="number" min="0" class="form-control"
-                           name="qtd_radio"
-                           onchange="gerarRadios(this.value)">
-                </div>
-
-                <div id="radios"></div>
-
-                <button type="submit" class="btn btn-success w-100 mt-4">
-                    Salvar Informações
-                </button>
-
-            </form>
-
-        </div>
-    </div>
-
-</div>
-
-<script>
-
-// ================= CONCENTRADORES =================
-
-function gerarConcentradores(qtd) {
-    let div = document.getElementById("concentradores");
-    div.innerHTML = "";
-
-    for (let i = 1; i <= qtd; i++) {
-        div.innerHTML += `
-        <div class="card mt-3 p-3">
-            <h6>Concentrador ${i}</h6>
-
-            <select class="form-control mb-2" name="modelo_${i}">
-                <option value="">Modelo</option>
-                <option value="Raspberry Pi 5 Model B Rev 1.0">
-                    Raspberry Pi 5 Model B Rev 1.0
-                </option>
-                <option value="Raspberry Pi 4">
-                    Raspberry Pi 4
-                </option>
-            </select>
-
-            <input type="text" class="form-control mb-2"
-                   placeholder="Número de Série"
-                   name="numero_serie_${i}">
-
-            <input type="text" class="form-control mb-2"
-                   placeholder="Tag Name (Ex: EFIZ-PC-01)"
-                   name="tag_name_${i}">
-
-            <input type="text" class="form-control mb-2"
-                   placeholder="Client Cod (Ex: client16_1)"
-                   name="client_cod_${i}">
-
-            <select class="form-control mb-2"
-                    name="tipo_eth_${i}"
-                    onchange="mostrarETH(this, ${i})">
-                <option value="">Tipo Comunicação ETH</option>
-                <option value="Via cabo">Via cabo</option>
-                <option value="Wi-Fi">Wi-Fi</option>
-            </select>
-
-            <div id="extra_eth_${i}"></div>
-        </div>
-        `;
-    }
-}
-
-function mostrarETH(select, i) {
-    let div = document.getElementById("extra_eth_" + i);
-    div.innerHTML = "";
-
-    if (select.value === "Via cabo") {
-        div.innerHTML = `
-            <input type="text" class="form-control mb-2"
-                   placeholder="Faixa IP"
-                   name="faixa_ip_${i}">
-        `;
-    }
-
-    if (select.value === "Wi-Fi") {
-        div.innerHTML = `
-            <input type="text" class="form-control mb-2"
-                   placeholder="Usuário"
-                   name="usuario_wifi_${i}">
-            <input type="text" class="form-control mb-2"
-                   placeholder="Senha"
-                   name="senha_wifi_${i}">
-        `;
-    }
-}
-
-// ================= MEDIDORES =================
-
-function gerarMedidores(qtd) {
-    let div = document.getElementById("medidores");
-    div.innerHTML = "";
-
-    for (let i = 1; i <= qtd; i++) {
-        div.innerHTML += `
-        <div class="card mt-3 p-3">
-            <h6>Medidor ${i}</h6>
-
-            <input class="form-control mb-2"
-                   placeholder="Tag Name (Ex: EFIZ-MD-01)"
-                   name="tag_name_medidor_${i}">
-
-            <input class="form-control mb-2"
-                   placeholder="Label (máx 12 caracteres)"
-                   maxlength="12"
-                   name="label_${i}">
-
-            <select class="form-control mb-2"
-                    name="qual_medidor_${i}"
-                    onchange="mostrarEnergia(this, ${i})">
-                <option value="">Qual Medidor</option>
-                <option value="Energia">Energia</option>
-                <option value="Temperatura">Temperatura</option>
-                <option value="Pressão">Pressão</option>
-            </select>
-
-            <div id="energia_${i}"></div>
-        </div>
-        `;
-    }
-}
-
-function mostrarEnergia(select, i) {
-    let div = document.getElementById("energia_" + i);
-    div.innerHTML = "";
-
-    if (select.value === "Energia") {
-        div.innerHTML = `
-            <select class="form-control mb-2"
-                    name="tipo_medidor_${i}"
-                    onchange="mostrarUP(this, ${i})">
-                <option value="">Tipo de Medidor</option>
-                <option value="UPENERGY">UPENERGY</option>
-                <option value="KRON-Multimedidor">KRON-Multimedidor</option>
-                <option value="CCK-Multimedidor">CCK- Multimedidor</option>
-                <option value="CCK-ABNT">CCK- ABNT</option>
-                <option value="IMS-ABNT">IMS-ABNT</option>
-                <option value="ION">ION</option>
-            </select>
-
-            <div id="up_${i}"></div>
-        `;
-    }
-}
-
-function mostrarUP(select, i) {
-    let div = document.getElementById("up_" + i);
-    div.innerHTML = "";
-    
-    // ================= UPENERGY =================
-    if (select.value === "UPENERGY") {
-        div.innerHTML = `
-            <input class="form-control mb-2"
-                   placeholder="Serial number ID1 (Ex: 012026001)"
-                   name="id1_${i}">
-
-            <input class="form-control mb-2"
-                   placeholder="Serial name ID2 (Ex: A001A)"
-                   name="id2_${i}">
-
-            <input class="form-control mb-2"
-                   placeholder="Device Address (Ex: 6017)"
-                   name="device_address_${i}">
-
-            <input class="form-control mb-2"
-                   placeholder="TC (Ex: 250/5)"
-                   name="tc_${i}"
-                   onchange="calcularKC(this, ${i})">
-
-            <input class="form-control mb-2"
-                   placeholder="Relação KC"
-                   name="kc_${i}"
-                   id="kc_${i}"
-                   readonly>
-
-            <input class="form-control mb-2"
-                   placeholder="Relação KT (Ex: 1)"
-                   name="kt_${i}">
-
-            <select class="form-control mb-2"
-                    name="tensao_${i}">
-                <option value="">Tensão F/N</option>
-                <option value="127">127</option>
-                <option value="220">220</option>
-            </select>
-        `;
-    }
-
-    // ================= KRON =================
-    if (select.value === "KRON-Multimedidor") {
-        div.innerHTML = `
-            <input class="form-control mb-2"
-                placeholder="Threshold (Ex: 0.02)"
-                name="threshold_${i}">
-
-            <input class="form-control mb-2"
-                placeholder="Endereço (Ex: 2)"
-                name="device_address_${i}">
-
-            <input class="form-control mb-2"
-                placeholder="Serial (Ex: 9.6 8N1)"
-                name="serial_${i}">
-
-            <input class="form-control mb-2"
-                placeholder="TI (Ex: 15)"
-                name="ti_${i}">
-
-            <input class="form-control mb-2"
-                placeholder="TL (Ex: 0)"
-                name="tl_${i}">
-
-            <input class="form-control mb-2"
-                placeholder="TC (Ex: 6.00)"
-                name="tc_${i}">
-
-            <input class="form-control mb-2"
-                placeholder="TP (Ex: 1.00)"
-                name="tp_${i}">
-
-            <select class="form-control mb-2"
-                    name="tensao_${i}">
-                <option value="">Tensão F/N</option>
-                <option value="127">127</option>
-                <option value="220">220</option>
-            </select>
-        `;
-    }   
-}
-
-function calcularKC(input, i) {
-    let valor = input.value;
-
-    if (valor.includes("/")) {
-        let partes = valor.split("/");
-        let num = parseFloat(partes[0]);
-        let den = parseFloat(partes[1]);
-
-        if (!isNaN(num) && !isNaN(den) && den !== 0) {
-            document.getElementById("kc_" + i).value = num / den;
-        }
-    }
-}
-
-function mostrarConversor(select, i) {
-    let div = document.getElementById("extra_med_" + i);
-    div.innerHTML = "";
-
-    if (select.value === "Cabeado") {
-        div.innerHTML = `
-            <input class="form-control mb-2"
-                   placeholder="Qual Conversor"
-                   name="qual_conversor_${i}">
-        `;
-    }
-}
-// ================= CONVERSORES =================
-
-function gerarConversores(qtd) {
-    let div = document.getElementById("conversores");
-    div.innerHTML = "";
-
-    for (let i = 1; i <= qtd; i++) {
-        div.innerHTML += `
-        <div class="card mt-3 p-3">
-            <h6>Conversor ${i}</h6>
-
-            <input class="form-control mb-2"
-                   placeholder="TAG (Ex: EFIZ-CV-02)"
-                   name="tag_conversor_${i}">
-
-            <input class="form-control mb-2"
-                   placeholder="IP (Ex: 192.168.100.3)"
-                   name="ip_conversor_${i}">
-
-            <input class="form-control mb-2"
-                   placeholder="Fabricante (Ex: RS 485)"
-                   name="fabricante_conversor_${i}">
-
-            <input class="form-control mb-2"
-                   placeholder="MAC (Ex: 00:1A:C2:7B:00:48)"
-                   name="mac_conversor_${i}">
-
-            <input class="form-control mb-2"
-                   placeholder="Baud Rate (Ex: 9600)"
-                   name="baudrate_${i}">
-
-            <input class="form-control mb-2"
-                   placeholder="Endereço ID (Ex: 1)"
-                   name="endereco_id_${i}">
-
-            <input class="form-control mb-2"
-                   placeholder="Paridade (Ex: none)"
-                   name="paridade_${i}">
-        </div>
-        `;
-    }
-}
-// ================= NOBREAK =================
-
-function gerarNobreaks(qtd) {
-    let div = document.getElementById("nobreaks");
-    div.innerHTML = "";
-
-    for (let i = 1; i <= qtd; i++) {
-        div.innerHTML += `
-        <div class="card mt-3 p-3">
-            <h6>Nobreak ${i}</h6>
-
-            <input class="form-control mb-2"
-                   placeholder="Qual Nobreak"
-                   name="qual_nobreak_${i}">
-
-            <input class="form-control mb-2"
-                   placeholder="Fabricante"
-                   name="fabricante_nobreak_${i}">
-
-            <input class="form-control mb-2"
-                   placeholder="Tag"
-                   name="tag_nobreak_${i}">
-        </div>
-        `;
-    }
-}
-
-// ================= RADIOS =================
-
-function gerarRadios(qtd) {
-    let div = document.getElementById("radios");
-    div.innerHTML = "";
-
-    for (let i = 1; i <= qtd; i++) {
-        div.innerHTML += `
-        <div class="card mt-3 p-3">
-            <h6>Rádio ${i}</h6>
-
-            <input class="form-control mb-2"
-                   placeholder="Qual Rádio"
-                   name="qual_radio_${i}">
-
-            <input class="form-control mb-2"
-                   placeholder="Fabricante"
-                   name="fabricante_radio_${i}">
-
-            <input class="form-control mb-2"
-                   placeholder="Tag"
-                   name="tag_radio_${i}">
-
-            <input class="form-control mb-2"
-                   placeholder="Endereço"
-                   name="endereco_radio_${i}">
-
-            <input class="form-control mb-2"
-                   placeholder="Canal"
-                   name="canal_radio_${i}">
-        </div>
-        `;
-    }
-}
-// ================= BLOQUEAR ENTER =================
-    document.addEventListener("DOMContentLoaded", function () {
-        document.querySelector("form").addEventListener("keydown", function (e) {
-            if (e.key === "Enter" && e.target.tagName !== "TEXTAREA") {
-                e.preventDefault();
-            }
-        });
-    });
-</script>
-
-</body>
-
-</html>
+from flask import Flask, render_template, request, redirect
+import gspread
+import json
+import os
+from google.oauth2.service_account import Credentials
+
+app = Flask(__name__)
+
+# ==============================
+# CONECTAR AO GOOGLE SHEETS
+# ==============================
+def conectar_planilha(nome_aba):
+
+    scope = [
+        "https://www.googleapis.com/auth/spreadsheets",
+        "https://www.googleapis.com/auth/drive"
+    ]
+
+    if "GOOGLE_CREDENTIALS" in os.environ:
+        credenciais_dict = json.loads(os.environ["GOOGLE_CREDENTIALS"])
+
+        creds = Credentials.from_service_account_info(
+            credenciais_dict,
+            scopes=scope
+        )
+    else:
+        creds = Credentials.from_service_account_file(
+            "credentials.json",
+            scopes=scope
+        )
+
+    client = gspread.authorize(creds)
+
+    planilha = client.open_by_key(
+        "1FnxxnmIe8-to-Fek918vUUBc9asCIbLCJaOcUAjGoz4"
+    ).worksheet(nome_aba)
+
+    return planilha
+
+# ==============================
+# ROTA PRINCIPAL
+# ==============================
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+
+# ==============================
+# SALVAR DADOS
+# ==============================
+@app.route("/salvar", methods=["POST"])
+def salvar():
+
+    cliente = request.form.get("cliente")
+    local = request.form.get("local")
+    setor = request.form.get("setor")
+
+    # ====================================================
+    # ================= MEDIDORES ========================
+    # ====================================================
+    ws_med = conectar_planilha("Medidores")
+
+    try:
+        qtd_medidores = int(request.form.get("qtd_medidor", 0))
+    except:
+        qtd_medidores = 0
+
+    linhas_medidores = []
+
+    for i in range(1, qtd_medidores + 1):
+
+        tipo = request.form.get(f"tipo_medidor_{i}")
+
+        # -------- CAMPOS PADRÃO --------
+        base = [
+            cliente,
+            local,
+            setor,
+            request.form.get(f"tag_name_medidor_{i}"),
+            request.form.get(f"label_{i}"),
+            request.form.get(f"qual_medidor_{i}"),
+            tipo
+        ]
+
+        # -------- UPENERGY --------
+        if tipo == "UPENERGY":
+            extra = [
+                request.form.get(f"id1_{i}"),
+                request.form.get(f"id2_{i}"),
+                request.form.get(f"device_address_{i}"),
+                request.form.get(f"tc_{i}"),
+                request.form.get(f"kc_{i}"),
+                request.form.get(f"kt_{i}"),
+                request.form.get(f"tensao_{i}"),
+                "", "", "", "", "", "", ""  # padding KRON
+            ]
+
+        # -------- KRON --------
+        elif tipo == "KRON-Multimedidor":
+            extra = [
+                "", "",  # id1, id2
+                request.form.get(f"device_address_{i}"),
+                request.form.get(f"tc_{i}"),
+                "",  # kc
+                "",  # kt
+                request.form.get(f"tensao_{i}"), 
+                request.form.get(f"threshold_{i}"),
+                request.form.get(f"serial_{i}"),
+                request.form.get(f"ti_{i}"),
+                request.form.get(f"tl_{i}"),
+                request.form.get(f"tp_{i}")
+            ]
+
+        # -------- OUTROS --------
+        else:
+            extra = [""] * 14
+
+        linhas_medidores.append(base + extra)
+
+    if linhas_medidores:
+        ws_med.append_rows(linhas_medidores)
+
+    # ====================================================
+    # ================= CONCENTRADORES ===================
+    # ====================================================
+    ws_conc = conectar_planilha("Concentradores")
+
+    try:
+        qtd_conc = int(request.form.get("qtd_concentrador", 0))
+    except:
+        qtd_conc = 0
+
+    linhas_conc = []
+
+    for i in range(1, qtd_conc + 1):
+
+        tipo_eth = request.form.get(f"tipo_eth_{i}")
+
+        linhas_conc.append([
+            cliente,
+            local,
+            setor,
+            request.form.get(f"modelo_{i}"),
+            request.form.get(f"numero_serie_{i}"),
+            request.form.get(f"tag_name_{i}"),
+            request.form.get(f"client_cod_{i}"),
+            tipo_eth,
+            request.form.get(f"faixa_ip_{i}") if tipo_eth == "Via cabo" else "",
+            request.form.get(f"usuario_wifi_{i}") if tipo_eth == "Wi-Fi" else "",
+            request.form.get(f"senha_wifi_{i}") if tipo_eth == "Wi-Fi" else ""
+        ])
+
+    if linhas_conc:
+        ws_conc.append_rows(linhas_conc)
+    # ====================================================
+    # ================= CONVERSORES =======================
+    # ====================================================
+    ws_conv = conectar_planilha("Conversores")
+
+    try:
+        qtd_conv = int(request.form.get("qtd_conversor", 0))
+    except:
+        qtd_conv = 0
+
+    linhas_conv = []
+
+    for i in range(1, qtd_conv + 1):
+        linhas_conv.append([
+            cliente,
+            local,
+            setor,
+            request.form.get(f"tag_conversor_{i}"),
+            request.form.get(f"ip_conversor_{i}"),
+            request.form.get(f"fabricante_conversor_{i}"),
+            request.form.get(f"mac_conversor_{i}"),
+            request.form.get(f"baudrate_{i}"),
+            request.form.get(f"endereco_id_{i}"),
+            request.form.get(f"paridade_{i}")
+        ])
+
+    if linhas_conv:
+        ws_conv.append_rows(linhas_conv)
+
+    # ====================================================
+    # ================= NOBREAKS =========================
+    # ====================================================
+    ws_nob = conectar_planilha("Nobreaks")
+
+    try:
+        qtd_nob = int(request.form.get("qtd_nobreak", 0))
+    except:
+        qtd_nob = 0
+
+    linhas_nob = []
+
+    for i in range(1, qtd_nob + 1):
+        linhas_nob.append([
+            cliente,
+            local,
+            setor,
+            request.form.get(f"qual_nobreak_{i}"),
+            request.form.get(f"fabricante_nobreak_{i}"),
+            request.form.get(f"tag_nobreak_{i}")
+        ])
+
+    if linhas_nob:
+        ws_nob.append_rows(linhas_nob)
+
+    # ====================================================
+    # ================= RADIOS ===========================
+    # ====================================================
+    ws_rad = conectar_planilha("Radios")
+
+    try:
+        qtd_rad = int(request.form.get("qtd_radio", 0))
+    except:
+        qtd_rad = 0
+
+    linhas_rad = []
+
+    for i in range(1, qtd_rad + 1):
+        linhas_rad.append([
+            cliente,
+            local,
+            setor,
+            request.form.get(f"qual_radio_{i}"),
+            request.form.get(f"fabricante_radio_{i}"),
+            request.form.get(f"tag_radio_{i}"),
+            request.form.get(f"endereco_radio_{i}"),
+            request.form.get(f"canal_radio_{i}")
+        ])
+
+    if linhas_rad:
+        ws_rad.append_rows(linhas_rad)
+
+    return redirect("/")
+
+# ==============================
+# EXECUTAR
+# ==============================
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
