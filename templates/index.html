@@ -153,6 +153,18 @@ function gerarConcentradores(qtd) {
             <input type="text" class="form-control mb-2"
                    placeholder="Client Cod (Ex: client16_1)"
                    name="client_cod_${i}">
+                   
+            <input type="text" class="form-control mb-2"
+                   placeholder="Gateway (Ex: 192.168.0.1)"
+                   name="gateway_${i}">
+
+            <input type="text" class="form-control mb-2"
+                   placeholder="MAC (Ex: 88:a2:9e:59:6c:2d)"
+                   name="mac_${i}">
+
+            <input type="text" class="form-control mb-2"
+                   placeholder="IP (Ex: 192.168.0.210)"
+                   name="ip_${i}">       
 
             <select class="form-control mb-2"
                     name="tipo_eth_${i}"
@@ -202,7 +214,11 @@ function gerarMedidores(qtd) {
         div.innerHTML += `
         <div class="card mt-3 p-3">
             <h6>Medidor ${i}</h6>
-
+           
+            <input class="form-control mb-2"
+                   placeholder="Painel (Ex: geral)"
+                   name="painel_${i}">
+           
             <input class="form-control mb-2"
                    placeholder="Tag Name (Ex: EFIZ-MD-01)"
                    name="tag_name_medidor_${i}">
