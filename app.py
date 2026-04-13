@@ -230,8 +230,9 @@ def salvar():
             request.form.get(f"qual_radio_{i}"),
             request.form.get(f"fabricante_radio_{i}"),
             request.form.get(f"tag_radio_{i}"),
+            request.form.get(f"id_radio_{i}")
             request.form.get(f"endereco_radio_{i}"),
-            request.form.get(f"canal_radio_{i}")
+            request.form.get(f"canal_radio_{i}"),
         ])
 
     if linhas_rad:
