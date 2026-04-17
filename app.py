@@ -175,7 +175,7 @@ def salvar():
             setor,
             request.form.get(f"tag_conversor_{i}"),
             request.form.get(f"ip_conversor_{i}"),
-            request.form.get(f"tipo_conversor_{i}")
+            request.form.get(f"tipo_conversor_{i}"),
             request.form.get(f"mac_conversor_{i}"),
             request.form.get(f"baudrate_{i}"),
             request.form.get(f"endereco_id_{i}"),
