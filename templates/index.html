@@ -395,9 +395,13 @@ function gerarConversores(qtd) {
                    placeholder="IP (Ex: 192.168.100.3)"
                    name="ip_conversor_${i}">
 
-            <input class="form-control mb-2"
-                   placeholder="Fabricante (Ex: RS 485)"
-                   name="fabricante_conversor_${i}">
+            <select class="form-control mb-2"
+                    name="tipo_conversor_${i}">
+                <option value="">Tipo de Conversor</option>
+                <option value="RS485-UTP">RS485-UTP</option>
+                <option value="RS485-USB">RS485-USB</option>
+                <option value="UTP-FIBRA">UTP-FIBRA</option>
+            </select>
 
             <input class="form-control mb-2"
                    placeholder="MAC (Ex: 00:1A:C2:7B:00:48)"
