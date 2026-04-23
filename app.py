@@ -76,7 +76,6 @@ def salvar():
             cliente,
             local,
             setor,
-            request.form.get(f"painel_{i}"),
             request.form.get(f"tag_name_medidor_{i}"),
             request.form.get(f"label_{i}"),
             request.form.get(f"qual_medidor_{i}"),
@@ -145,13 +144,16 @@ def salvar():
             request.form.get(f"numero_serie_{i}"),
             request.form.get(f"tag_name_{i}"),
             request.form.get(f"client_cod_{i}"),
-            request.form.get(f"gateway_{i}"),
-            request.form.get(f"mac_{i}"),
-            request.form.get(f"ip_{i}"),
             tipo_eth,
-            request.form.get(f"faixa_ip_{i}") if tipo_eth == "Via cabo" else "",
-            request.form.get(f"usuario_wifi_{i}") if tipo_eth == "Wi-Fi" else "",
-            request.form.get(f"senha_wifi_{i}") if tipo_eth == "Wi-Fi" else ""
+            # ETH
+            request.form.get(f"mac_eth_{i}"),
+            request.form.get(f"ip_eth_{i}"),
+            request.form.get(f"gateway_eth_{i}"),
+
+            # WAN
+            request.form.get(f"mac_wan_{i}"),
+            request.form.get(f"ip_wan_{i}"),
+            request.form.get(f"gateway_wan_{i}")
         ])
 
     if linhas_conc:
@@ -186,29 +188,29 @@ def salvar():
         ws_conv.append_rows(linhas_conv)
 
     # ====================================================
-    # ================= NOBREAKS =========================
+    # ============= EQUIPAMENTOS DE REDE =================
     # ====================================================
-    ws_nob = conectar_planilha("Nobreaks")
+    ws_eq = conectar_planilha("Equipamentos de Rede")
 
     try:
-        qtd_nob = int(request.form.get("qtd_nobreak", 0))
+        qtd_eq = int(request.form.get("qtd_equipamento_rede", 0))
     except:
-        qtd_nob = 0
+        qtd_eq = 0
 
-    linhas_nob = []
+    linhas_eq = []
 
-    for i in range(1, qtd_nob + 1):
-        linhas_nob.append([
+    for i in range(1, qtd_eq + 1):
+        linhas_eq.append([
             cliente,
             local,
             setor,
-            request.form.get(f"qual_nobreak_{i}"),
-            request.form.get(f"fabricante_nobreak_{i}"),
-            request.form.get(f"tag_nobreak_{i}")
+            request.form.get(f"tipo_equipamento_{i}"),
+            request.form.get(f"fabricante_equipamento_{i}"),
+            request.form.get(f"tag_equipamento_{i}")
         ])
 
-    if linhas_nob:
-        ws_nob.append_rows(linhas_nob)
+    if linhas_eq:
+        ws_eq.append_rows(linhas_eq)
 
     # ====================================================
     # ================= RADIOS ===========================
