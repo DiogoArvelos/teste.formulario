@@ -88,15 +88,15 @@
                 </div>
 
                 <div id="conversores"></div>
-                <!-- ================= NOBREAK ================= -->
+                <!-- ================= EQUIPAMENTOS DE REDE ================= -->
                 <div class="mb-3 mt-4">
-                    <label>Quantidade de Nobreak</label>
+                    <label>Quantidade de Equipamentos de Rede</label>
                     <input type="number" min="0" class="form-control"
-                           name="qtd_nobreak"
-                           onchange="gerarNobreaks(this.value)">
+                        name="qtd_equipamento_rede"
+                        onchange="gerarEquipamentosRede(this.value)">
                 </div>
 
-                <div id="nobreaks"></div>
+                <div id="equipamentos_rede"></div>
 
                 <!-- ================= RADIOS ================= -->
                 <div class="mb-3 mt-4">
@@ -153,18 +153,6 @@ function gerarConcentradores(qtd) {
             <input type="text" class="form-control mb-2"
                    placeholder="Client Cod (Ex: client16_1)"
                    name="client_cod_${i}">
-                   
-            <input type="text" class="form-control mb-2"
-                   placeholder="Gateway (Ex: 192.168.0.1)"
-                   name="gateway_${i}">
-
-            <input type="text" class="form-control mb-2"
-                   placeholder="MAC (Ex: 88:a2:9e:59:6c:2d)"
-                   name="mac_${i}">
-
-            <input type="text" class="form-control mb-2"
-                   placeholder="IP (Ex: 192.168.0.210)"
-                   name="ip_${i}">       
 
             <select class="form-control mb-2"
                     name="tipo_eth_${i}"
@@ -184,22 +172,37 @@ function mostrarETH(select, i) {
     let div = document.getElementById("extra_eth_" + i);
     div.innerHTML = "";
 
+    // ================= VIA CABO =================
     if (select.value === "Via cabo") {
         div.innerHTML = `
-            <input type="text" class="form-control mb-2"
-                   placeholder="Faixa IP"
-                   name="faixa_ip_${i}">
+            <input class="form-control mb-2"
+                   placeholder="MAC (Eth0) (Ex: 88:a2:9e:59:6c:2d)"
+                   name="mac_eth_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="IP (Eth0) (Ex: 192.168.0.210)"
+                   name="ip_eth_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="Gateway (Eth0) (Ex: 192.168.0.1)"
+                   name="gateway_eth_${i}">
         `;
     }
 
+    // ================= WI-FI =================
     if (select.value === "Wi-Fi") {
         div.innerHTML = `
-            <input type="text" class="form-control mb-2"
-                   placeholder="Usuário"
-                   name="usuario_wifi_${i}">
-            <input type="text" class="form-control mb-2"
-                   placeholder="Senha"
-                   name="senha_wifi_${i}">
+            <input class="form-control mb-2"
+                   placeholder="MAC (Wan) (Ex: 88:a2:9e:59:6c:2d)"
+                   name="mac_wan_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="IP (Wan) (Ex: 192.168.0.210)"
+                   name="ip_wan_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="Gateway (Wan) (Ex: 192.168.0.1)"
+                   name="gateway_wan_${i}">
         `;
     }
 }
@@ -214,10 +217,6 @@ function gerarMedidores(qtd) {
         div.innerHTML += `
         <div class="card mt-3 p-3">
             <h6>Medidor ${i}</h6>
-           
-            <input class="form-control mb-2"
-                   placeholder="Painel (Ex: geral)"
-                   name="painel_${i}">
            
             <input class="form-control mb-2"
                    placeholder="Tag Name (Ex: EFIZ-MD-01)"
@@ -422,28 +421,32 @@ function gerarConversores(qtd) {
         `;
     }
 }
-// ================= NOBREAK =================
+// ================= EQUIPAMENTO DE REDE =================
 
-function gerarNobreaks(qtd) {
-    let div = document.getElementById("nobreaks");
+function gerarEquipamentosRede(qtd) {
+    let div = document.getElementById("equipamentos_rede");
     div.innerHTML = "";
 
     for (let i = 1; i <= qtd; i++) {
         div.innerHTML += `
         <div class="card mt-3 p-3">
-            <h6>Nobreak ${i}</h6>
+            <h6>Equipamento de Rede ${i}</h6>
+
+            <select class="form-control mb-2"
+                    name="tipo_equipamento_${i}">
+                <option value="">Qual Equipamento de Rede</option>
+                <option value="Nobreak">Nobreak</option>
+                <option value="Conversor de Rede">Conversor de Rede</option>
+                <option value="Switch">Switch</option>
+            </select>
 
             <input class="form-control mb-2"
-                   placeholder="Qual Nobreak"
-                   name="qual_nobreak_${i}">
+                   placeholder="Fabricante (Ex: INTELBRAS)"
+                   name="fabricante_equipamento_${i}">
 
             <input class="form-control mb-2"
-                   placeholder="Fabricante"
-                   name="fabricante_nobreak_${i}">
-
-            <input class="form-control mb-2"
-                   placeholder="Tag"
-                   name="tag_nobreak_${i}">
+                   placeholder="Tag (Ex: EFIZ-NB-01)"
+                   name="tag_equipamento_${i}">
         </div>
         `;
     }
