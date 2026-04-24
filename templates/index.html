@@ -79,6 +79,7 @@
                 </div>
 
                 <div id="medidores"></div>
+
                 <!-- ================= CONVERSORES ================= -->
                 <div class="mb-3 mt-4">
                     <label>Quantidade de Conversores</label>
@@ -88,6 +89,7 @@
                 </div>
 
                 <div id="conversores"></div>
+
                 <!-- ================= EQUIPAMENTOS DE REDE ================= -->
                 <div class="mb-3 mt-4">
                     <label>Quantidade de Equipamentos de Rede</label>
@@ -107,6 +109,16 @@
                 </div>
 
                 <div id="radios"></div>
+
+                <!-- ================= GERADORES ================= -->
+                <div class="mb-3 mt-4">
+                    <label>Quantidade de Geradores</label>
+                    <input type="number" min="0" class="form-control"
+                           name="qtd_gerador"
+                           onchange="gerarGeradores(this.value)">
+                </div>
+
+                <div id="geradores"></div>
 
                 <button type="submit" class="btn btn-success w-100 mt-4">
                     Salvar Informações
@@ -217,7 +229,7 @@ function gerarMedidores(qtd) {
         div.innerHTML += `
         <div class="card mt-3 p-3">
             <h6>Medidor ${i}</h6>
-           
+
             <input class="form-control mb-2"
                    placeholder="Tag Name (Ex: EFIZ-MD-01)"
                    name="tag_name_medidor_${i}">
@@ -268,7 +280,7 @@ function mostrarEnergia(select, i) {
 function mostrarUP(select, i) {
     let div = document.getElementById("up_" + i);
     div.innerHTML = "";
-    
+
     // ================= UPENERGY =================
     if (select.value === "UPENERGY") {
         div.innerHTML = `
@@ -346,7 +358,7 @@ function mostrarUP(select, i) {
                 <option value="220">220</option>
             </select>
         `;
-    }   
+    }
 }
 
 function calcularKC(input, i) {
@@ -375,6 +387,7 @@ function mostrarConversor(select, i) {
         `;
     }
 }
+
 // ================= CONVERSORES =================
 
 function gerarConversores(qtd) {
@@ -420,6 +433,7 @@ function gerarConversores(qtd) {
         `;
     }
 }
+
 // ================= EQUIPAMENTO DE REDE =================
 
 function gerarEquipamentosRede(qtd) {
@@ -473,11 +487,11 @@ function gerarRadios(qtd) {
             <input class="form-control mb-2"
                    placeholder="Tag"
                    name="tag_radio_${i}">
-            
+
             <input class="form-control mb-2"
                    placeholder="ID (Ex: 1)"
                    name="id_radio_${i}">
-            
+
             <input class="form-control mb-2"
                    placeholder="Endereço"
                    name="endereco_radio_${i}">
@@ -485,11 +499,42 @@ function gerarRadios(qtd) {
             <input class="form-control mb-2"
                    placeholder="Canal"
                    name="canal_radio_${i}">
-
         </div>
         `;
     }
 }
+
+// ================= GERADORES =================
+
+function gerarGeradores(qtd) {
+    let div = document.getElementById("geradores");
+    div.innerHTML = "";
+
+    for (let i = 1; i <= qtd; i++) {
+        div.innerHTML += `
+        <div class="card mt-3 p-3">
+            <h6>Gerador ${i}</h6>
+
+            <input class="form-control mb-2"
+                   placeholder="Fabricante (Ex: Deep Sea)"
+                   name="fabricante_gerador_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="Tag Name (Ex: EFIZ-MD-01)"
+                   name="tag_gerador_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="Gateway (Ex: 192.168.0.1)"
+                   name="gateway_gerador_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="IP (Ex: 192.168.0.211)"
+                   name="ip_gerador_${i}">
+        </div>
+        `;
+    }
+}
+
 // ================= BLOQUEAR ENTER =================
     document.addEventListener("DOMContentLoaded", function () {
         document.querySelector("form").addEventListener("keydown", function (e) {
