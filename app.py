@@ -103,7 +103,7 @@ def salvar():
                 request.form.get(f"tc_{i}"),
                 "",  # kc
                 "",  # kt
-                request.form.get(f"tensao_{i}"), 
+                request.form.get(f"tensao_{i}"),
                 request.form.get(f"threshold_{i}"),
                 request.form.get(f"serial_{i}"),
                 request.form.get(f"ti_{i}"),
@@ -158,6 +158,7 @@ def salvar():
 
     if linhas_conc:
         ws_conc.append_rows(linhas_conc)
+
     # ====================================================
     # ================= CONVERSORES =======================
     # ====================================================
@@ -239,6 +240,32 @@ def salvar():
 
     if linhas_rad:
         ws_rad.append_rows(linhas_rad)
+
+    # ====================================================
+    # ================= GERADORES ========================
+    # ====================================================
+    ws_ger = conectar_planilha("Geradores")
+
+    try:
+        qtd_ger = int(request.form.get("qtd_gerador", 0))
+    except:
+        qtd_ger = 0
+
+    linhas_ger = []
+
+    for i in range(1, qtd_ger + 1):
+        linhas_ger.append([
+            cliente,
+            local,
+            setor,
+            request.form.get(f"fabricante_gerador_{i}"),
+            request.form.get(f"tag_gerador_{i}"),
+            request.form.get(f"gateway_gerador_{i}"),
+            request.form.get(f"ip_gerador_{i}")
+        ])
+
+    if linhas_ger:
+        ws_ger.append_rows(linhas_ger)
 
     return redirect("/")
 
