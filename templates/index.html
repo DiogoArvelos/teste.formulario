@@ -321,6 +321,19 @@ function mostrarUP(select, i) {
         `;
     }
 
+    // ================= ION =================
+    if (select.value === "ION") {
+        div.innerHTML = `
+            <input class="form-control mb-2"
+                   placeholder="ID (Ex: 1)"
+                   name="id_ion_${i}">
+    
+            <input class="form-control mb-2"
+                   placeholder="IP (Ex: 192.168.4.1)"
+                   name="ip_ion_${i}">
+        `;
+    }
+    
     // ================= KRON =================
     if (select.value === "KRON-Multimedidor") {
         div.innerHTML = `
