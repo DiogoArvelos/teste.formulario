@@ -94,7 +94,16 @@ def salvar():
                 request.form.get(f"tensao_{i}"),
                 "", "", "", "", "", "", ""  # padding KRON
             ]
-
+        # -------- ION --------
+        elif tipo == "ION":
+            extra = [
+                "", "",                              # id1, id2
+                "",                                  # device_address
+                "", "", "", "",                      # tc, kc, kt, tensao
+                "", "", "", "", "",                  # threshold, serial, ti, tl, tp
+                request.form.get(f"id_ion_{i}"),
+                request.form.get(f"ip_ion_{i}")
+            ]
         # -------- KRON --------
         elif tipo == "KRON-Multimedidor":
             extra = [
