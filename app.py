@@ -102,7 +102,7 @@ def salvar():
                 "", "", "", "",                      # tc, kc, kt, tensao
                 "", "", "", "", "",                  # threshold, serial, ti, tl, tp
                 request.form.get(f"id_ion_{i}"),
-                request.form.get(f"ip_ion_{i}"),
+                request.form.get(f"port_ion_{i}"),
                 request.form.get(f"protocol_ion_{i}"),
                 request.form.get(f"baudrate_ion_{i}"),
                 request.form.get(f"rxtimeout_ion_{i}"),
