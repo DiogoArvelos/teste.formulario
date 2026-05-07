@@ -92,41 +92,65 @@ def salvar():
                 request.form.get(f"kc_{i}"),
                 request.form.get(f"kt_{i}"),
                 request.form.get(f"tensao_{i}"),
-                "", "", "", "", "", "", ""  # padding KRON
+                "", "", "", "", "",     # threshold, serial, ti, tl, tp
+                "", "", "", "", "", "", # ion fields
+                "", ""                  # mac_ims, ip_ims
             ]
+
         # -------- ION --------
         elif tipo == "ION":
             extra = [
-                "", "",                              # id1, id2
-                "",                                  # device_address
-                "", "", "", "",                      # tc, kc, kt, tensao
-                "", "", "", "", "",                  # threshold, serial, ti, tl, tp
+                "", "",                               # id1, id2
+                "",                                   # device_address
+                "", "", "", "",                       # tc, kc, kt, tensao
+                "", "", "", "", "",                   # threshold, serial, ti, tl, tp
                 request.form.get(f"id_ion_{i}"),
                 request.form.get(f"port_ion_{i}"),
                 request.form.get(f"protocol_ion_{i}"),
                 request.form.get(f"baudrate_ion_{i}"),
                 request.form.get(f"rxtimeout_ion_{i}"),
-                request.form.get(f"serialport_ion_{i}")
+                request.form.get(f"serialport_ion_{i}"),
+                "", ""                                # mac_ims, ip_ims
             ]
+
         # -------- KRON --------
         elif tipo == "KRON-Multimedidor":
             extra = [
-                "", "",  # id1, id2
+                "", "",                               # id1, id2
                 request.form.get(f"device_address_{i}"),
                 request.form.get(f"tc_{i}"),
-                "",  # kc
-                "",  # kt
+                "",                                   # kc
+                "",                                   # kt
                 request.form.get(f"tensao_{i}"),
                 request.form.get(f"threshold_{i}"),
                 request.form.get(f"serial_{i}"),
                 request.form.get(f"ti_{i}"),
                 request.form.get(f"tl_{i}"),
-                request.form.get(f"tp_{i}")
+                request.form.get(f"tp_{i}"),
+                "", "", "", "", "", "",               # ion fields
+                "", ""                                # mac_ims, ip_ims
+            ]
+
+        # -------- IMS --------
+        elif tipo == "IMS-ABNT":
+            extra = [
+                "", "",                               # id1, id2
+                request.form.get(f"endereco_id_ims_{i}"),  # device_address
+                "", "", "", "",                       # tc, kc, kt, tensao
+                "", "", "", "", "",                   # threshold, serial, ti, tl, tp
+                "",                                   # id_ion
+                "",                                   # port_ion
+                "",                                   # protocol_ion
+                request.form.get(f"baudrate_ims_{i}"),
+                "",                                   # rxtimeout
+                "",                                   # serialport
+                request.form.get(f"mac_ims_{i}"),
+                request.form.get(f"ip_ims_{i}")
             ]
 
         # -------- OUTROS --------
         else:
-            extra = [""] * 14
+            extra = [""] * 19
 
         linhas_medidores.append(base + extra)
 
@@ -162,7 +186,6 @@ def salvar():
             request.form.get(f"mac_eth_{i}"),
             request.form.get(f"ip_eth_{i}"),
             request.form.get(f"gateway_eth_{i}"),
-
             # WAN
             request.form.get(f"mac_wan_{i}"),
             request.form.get(f"ip_wan_{i}"),
