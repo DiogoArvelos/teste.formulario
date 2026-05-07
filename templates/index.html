@@ -327,29 +327,29 @@ function mostrarUP(select, i) {
             <input class="form-control mb-2"
                    placeholder="ID (Ex: 1)"
                    name="id_ion_${i}">
-    
+
             <input class="form-control mb-2"
                    placeholder="Port (Ex: Com3)"
-                   name="ip_ion_${i}">
-    
+                   name="port_ion_${i}">
+
             <input class="form-control mb-2"
                    placeholder="Protocol (Ex: Modbus RTU)"
                    name="protocol_ion_${i}">
-    
+
             <input class="form-control mb-2"
                    placeholder="Baud Rate (Ex: 9600)"
                    name="baudrate_ion_${i}">
-    
+
             <input class="form-control mb-2"
                    placeholder="Rx Timeout (Ex: 5)"
                    name="rxtimeout_ion_${i}">
-    
+
             <input class="form-control mb-2"
                    placeholder="Serial Port (Ex: 8N1)"
                    name="serialport_ion_${i}">
         `;
     }
-        
+
     // ================= KRON =================
     if (select.value === "KRON-Multimedidor") {
         div.innerHTML = `
@@ -387,6 +387,27 @@ function mostrarUP(select, i) {
                 <option value="127">127</option>
                 <option value="220">220</option>
             </select>
+        `;
+    }
+
+    // ================= IMS =================
+    if (select.value === "IMS-ABNT") {
+        div.innerHTML = `
+            <input class="form-control mb-2"
+                   placeholder="Endereço ID (Ex: 1)"
+                   name="endereco_id_ims_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="Baud Rate (Ex: 9600)"
+                   name="baudrate_ims_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="MAC (Ex: 88:a2:9e:59:6c:2d)"
+                   name="mac_ims_${i}">
+
+            <input class="form-control mb-2"
+                   placeholder="IP (Ex: 192.168.0.210)"
+                   name="ip_ims_${i}">
         `;
     }
 }
