@@ -119,7 +119,7 @@ def salvar():
                 "", "",                               # id1, id2
                 request.form.get(f"device_address_{i}"),
                 request.form.get(f"tc_{i}"),
-                "",                                   # kc
+                request.form.get(f"kc_{i}"),          # kc calculado pelo formulário
                 "",                                   # kt
                 request.form.get(f"tensao_{i}"),
                 request.form.get(f"threshold_{i}"),
