@@ -170,9 +170,9 @@ function gerarConcentradores(qtd) {
             <select class="form-control mb-2"
                     name="tipo_eth_${i}"
                     onchange="mostrarETH(this, ${i})">
-                <option value="">Tipo Comunicação ETH</option>
-                <option value="Via cabo">Via cabo</option>
-                <option value="Wi-Fi">Wi-Fi</option>
+                <option value="">Tipo de Conexão</option>
+                <option value="Eth0">Eth0</option>
+                <option value="Wan">Wan</option>
             </select>
 
             <div id="extra_eth_${i}"></div>
@@ -186,7 +186,7 @@ function mostrarETH(select, i) {
     div.innerHTML = "";
 
     // ================= VIA CABO =================
-    if (select.value === "Via cabo") {
+    if (select.value === "Eth0") {
         div.innerHTML = `
             <input class="form-control mb-2"
                    placeholder="MAC (Eth0) (Ex: 88:a2:9e:59:6c:2d)"
@@ -203,7 +203,7 @@ function mostrarETH(select, i) {
     }
 
     // ================= WI-FI =================
-    if (select.value === "Wi-Fi") {
+    if (select.value === "Wan") {
         div.innerHTML = `
             <input class="form-control mb-2"
                    placeholder="MAC (Wan) (Ex: 88:a2:9e:59:6c:2d)"
