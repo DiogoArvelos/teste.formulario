@@ -374,8 +374,15 @@ function mostrarUP(select, i) {
                 name="tl_${i}">
 
             <input class="form-control mb-2"
-                placeholder="TC (Ex: 6.00)"
-                name="tc_${i}">
+                placeholder="TC (Ex: 250/5)"
+                name="tc_${i}"
+                onchange="calcularKC(this, ${i})">
+
+            <input class="form-control mb-2"
+                placeholder="Relação KC"
+                name="kc_${i}"
+                id="kc_${i}"
+                readonly>
 
             <input class="form-control mb-2"
                 placeholder="TP (Ex: 1.00)"
