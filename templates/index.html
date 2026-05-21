@@ -397,6 +397,53 @@ function mostrarUP(select, i) {
         `;
     }
 
+    // ================= CCK-Multimedidor =================
+    if (select.value === "CCK-Multimedidor") {
+        div.innerHTML = `
+            <input class="form-control mb-2"
+                placeholder="Threshold (Ex: 0.02)"
+                name="threshold_${i}">
+
+            <input class="form-control mb-2"
+                placeholder="Endereço ID (Ex: 2)"
+                name="device_address_${i}">
+
+            <input class="form-control mb-2"
+                placeholder="Serial (Ex: 9.6 8N1)"
+                name="serial_${i}">
+
+            <input class="form-control mb-2"
+                placeholder="TI (Ex: 15)"
+                name="ti_${i}">
+
+            <input class="form-control mb-2"
+                placeholder="TL (Ex: 0)"
+                name="tl_${i}">
+
+            <input class="form-control mb-2"
+                placeholder="TC (Ex: 250/5)"
+                name="tc_${i}"
+                onchange="calcularKC(this, ${i})">
+
+            <input class="form-control mb-2"
+                placeholder="Relação KC"
+                name="kc_${i}"
+                id="kc_${i}"
+                readonly>
+
+            <input class="form-control mb-2"
+                placeholder="TP (Ex: 1.00)"
+                name="tp_${i}">
+
+            <select class="form-control mb-2"
+                    name="tensao_${i}">
+                <option value="">Tensão F/N</option>
+                <option value="127">127</option>
+                <option value="220">220</option>
+            </select>
+        `;
+    }
+
     // ================= IMS =================
     if (select.value === "IMS-ABNT") {
         div.innerHTML = `
