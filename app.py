@@ -119,7 +119,25 @@ def salvar():
                 "", "",                               # id1, id2
                 request.form.get(f"device_address_{i}"),
                 request.form.get(f"tc_{i}"),
-                request.form.get(f"kc_{i}"),          # kc calculado pelo formulário
+                request.form.get(f"kc_{i}"),
+                "",                                   # kt
+                request.form.get(f"tensao_{i}"),
+                request.form.get(f"threshold_{i}"),
+                request.form.get(f"serial_{i}"),
+                request.form.get(f"ti_{i}"),
+                request.form.get(f"tl_{i}"),
+                request.form.get(f"tp_{i}"),
+                "", "", "", "", "", "",               # ion fields
+                "", ""                                # mac_ims, ip_ims
+            ]
+
+        # -------- CCK-Multimedidor --------
+        elif tipo == "CCK-Multimedidor":
+            extra = [
+                "", "",                               # id1, id2
+                request.form.get(f"device_address_{i}"),
+                request.form.get(f"tc_{i}"),
+                request.form.get(f"kc_{i}"),
                 "",                                   # kt
                 request.form.get(f"tensao_{i}"),
                 request.form.get(f"threshold_{i}"),
