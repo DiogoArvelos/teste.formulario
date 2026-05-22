@@ -58,6 +58,11 @@ def salvar():
     # ====================================================
     # ================= MEDIDORES ========================
     # ====================================================
+    # Colunas: Cliente | Local | Setor | Tag Name | Label | Qual Medidor | Tipo de Medidor
+    #        | ID1 | ID2 | Device Address | TC | Relação KC | Relação KT | Tensão F/N
+    #        | Threshold | Serial | TI | TL | TP
+    #        | Port | Protocol | Baud Rate | Rx Timeout | Serial Port | MAC | IP
+    # ====================================================
     ws_med = conectar_planilha("Medidores")
 
     try:
@@ -73,97 +78,95 @@ def salvar():
 
         # -------- CAMPOS PADRÃO --------
         base = [
-            cliente,
-            local,
-            setor,
-            request.form.get(f"tag_name_medidor_{i}"),
-            request.form.get(f"label_{i}"),
-            request.form.get(f"qual_medidor_{i}"),
-            tipo
+            cliente,                                   # Cliente
+            local,                                     # Local
+            setor,                                     # Setor
+            request.form.get(f"tag_name_medidor_{i}"), # Tag Name
+            request.form.get(f"label_{i}"),            # Label
+            request.form.get(f"qual_medidor_{i}"),     # Qual Medidor
+            tipo                                       # Tipo de Medidor
         ]
 
         # -------- UPENERGY --------
         if tipo == "UPENERGY":
             extra = [
-                request.form.get(f"id1_{i}"),
-                request.form.get(f"id2_{i}"),
-                request.form.get(f"device_address_{i}"),
-                request.form.get(f"tc_{i}"),
-                request.form.get(f"kc_{i}"),
-                request.form.get(f"kt_{i}"),
-                request.form.get(f"tensao_{i}"),
-                "", "", "", "", "",     # threshold, serial, ti, tl, tp
-                "", "", "", "", "", "", # ion fields
-                "", ""                  # mac_ims, ip_ims
+                request.form.get(f"id1_{i}"),          # ID1
+                request.form.get(f"id2_{i}"),          # ID2
+                request.form.get(f"device_address_{i}"),# Device Address
+                request.form.get(f"tc_{i}"),           # TC
+                request.form.get(f"kc_{i}"),           # Relação KC
+                request.form.get(f"kt_{i}"),           # Relação KT
+                request.form.get(f"tensao_{i}"),       # Tensão F/N
+                "", "", "", "", "",                    # Threshold, Serial, TI, TL, TP
+                "", "", "", "", "", "",                # Port, Protocol, Baud Rate, Rx Timeout, Serial Port, MAC
+                ""                                     # IP
             ]
 
         # -------- ION --------
         elif tipo == "ION":
             extra = [
-                "", "",                                    # id1, id2
-                request.form.get(f"device_address_{i}"),  # endereço ID → device_address
-                "", "", "", "",                            # tc, kc, kt, tensao
-                "", "", "", "", "",                        # threshold, serial, ti, tl, tp
-                "",                                        # id_ion (não usado mais)
-                request.form.get(f"port_ion_{i}"),
-                request.form.get(f"protocol_ion_{i}"),
-                request.form.get(f"baudrate_ion_{i}"),
-                request.form.get(f"rxtimeout_ion_{i}"),
-                request.form.get(f"serialport_ion_{i}"),
-                "", ""                                     # mac_ims, ip_ims
+                "", "",                                    # ID1, ID2
+                request.form.get(f"device_address_{i}"),  # Device Address
+                "", "", "", "",                            # TC, Relação KC, Relação KT, Tensão F/N
+                "", "", "", "", "",                        # Threshold, Serial, TI, TL, TP
+                request.form.get(f"port_ion_{i}"),         # Port
+                request.form.get(f"protocol_ion_{i}"),     # Protocol
+                request.form.get(f"baudrate_ion_{i}"),     # Baud Rate
+                request.form.get(f"rxtimeout_ion_{i}"),    # Rx Timeout
+                request.form.get(f"serialport_ion_{i}"),   # Serial Port
+                "", ""                                     # MAC, IP
             ]
 
         # -------- KRON --------
         elif tipo == "KRON-Multimedidor":
             extra = [
-                "", "",                               # id1, id2
-                request.form.get(f"device_address_{i}"),
-                request.form.get(f"tc_{i}"),
-                request.form.get(f"kc_{i}"),
-                "",                                   # kt
-                request.form.get(f"tensao_{i}"),
-                request.form.get(f"threshold_{i}"),
-                request.form.get(f"serial_{i}"),
-                request.form.get(f"ti_{i}"),
-                request.form.get(f"tl_{i}"),
-                request.form.get(f"tp_{i}"),
-                "", "", "", "", "", "",               # ion fields
-                "", ""                                # mac_ims, ip_ims
+                "", "",                                    # ID1, ID2
+                request.form.get(f"device_address_{i}"),  # Device Address
+                request.form.get(f"tc_{i}"),               # TC
+                request.form.get(f"kc_{i}"),               # Relação KC
+                "",                                        # Relação KT
+                request.form.get(f"tensao_{i}"),           # Tensão F/N
+                request.form.get(f"threshold_{i}"),        # Threshold
+                request.form.get(f"serial_{i}"),           # Serial
+                request.form.get(f"ti_{i}"),               # TI
+                request.form.get(f"tl_{i}"),               # TL
+                request.form.get(f"tp_{i}"),               # TP
+                "", "", "", "", "", "",                    # Port, Protocol, Baud Rate, Rx Timeout, Serial Port, MAC
+                ""                                         # IP
             ]
 
         # -------- CCK-Multimedidor --------
         elif tipo == "CCK-Multimedidor":
             extra = [
-                "", "",                               # id1, id2
-                request.form.get(f"device_address_{i}"),
-                request.form.get(f"tc_{i}"),
-                request.form.get(f"kc_{i}"),
-                "",                                   # kt
-                request.form.get(f"tensao_{i}"),
-                request.form.get(f"threshold_{i}"),
-                request.form.get(f"serial_{i}"),
-                request.form.get(f"ti_{i}"),
-                request.form.get(f"tl_{i}"),
-                request.form.get(f"tp_{i}"),
-                "", "", "", "", "", "",               # ion fields
-                "", ""                                # mac_ims, ip_ims
+                "", "",                                    # ID1, ID2
+                request.form.get(f"device_address_{i}"),  # Device Address
+                request.form.get(f"tc_{i}"),               # TC
+                request.form.get(f"kc_{i}"),               # Relação KC
+                "",                                        # Relação KT
+                request.form.get(f"tensao_{i}"),           # Tensão F/N
+                request.form.get(f"threshold_{i}"),        # Threshold
+                request.form.get(f"serial_{i}"),           # Serial
+                request.form.get(f"ti_{i}"),               # TI
+                request.form.get(f"tl_{i}"),               # TL
+                request.form.get(f"tp_{i}"),               # TP
+                "", "", "", "", "", "",                    # Port, Protocol, Baud Rate, Rx Timeout, Serial Port, MAC
+                ""                                         # IP
             ]
 
         # -------- IMS --------
         elif tipo == "IMS-ABNT":
             extra = [
-                "", "",                               # id1, id2
-                request.form.get(f"endereco_id_ims_{i}"),  # device_address
-                "", "", "", "",                       # tc, kc, kt, tensao
-                "", "", "", "", "",                   # threshold, serial, ti, tl, tp
-                "",                                   # id_ion
-                "",                                   # port_ion
-                "",                                   # protocol_ion
-                request.form.get(f"baudrate_ims_{i}"),
-                "",                                   # rxtimeout
-                "",                                   # serialport
-                request.form.get(f"mac_ims_{i}"),
-                request.form.get(f"ip_ims_{i}")
+                "", "",                                        # ID1, ID2
+                request.form.get(f"endereco_id_ims_{i}"),     # Device Address
+                "", "", "", "",                                # TC, Relação KC, Relação KT, Tensão F/N
+                "", "", "", "", "",                            # Threshold, Serial, TI, TL, TP
+                "",                                            # Port
+                "",                                            # Protocol
+                request.form.get(f"baudrate_ims_{i}"),        # Baud Rate
+                "",                                            # Rx Timeout
+                "",                                            # Serial Port
+                request.form.get(f"mac_ims_{i}"),             # MAC
+                request.form.get(f"ip_ims_{i}")               # IP
             ]
 
         # -------- OUTROS --------
@@ -270,6 +273,8 @@ def salvar():
     # ====================================================
     # ================= RADIOS ===========================
     # ====================================================
+    # Colunas: Cliente | Local | Setor | Qual Radio | Fabricante | Tag | ID | Canal
+    # ====================================================
     ws_rad = conectar_planilha("Radios")
 
     try:
@@ -281,15 +286,14 @@ def salvar():
 
     for i in range(1, qtd_rad + 1):
         linhas_rad.append([
-            cliente,
-            local,
-            setor,
-            request.form.get(f"qual_radio_{i}"),
-            request.form.get(f"fabricante_radio_{i}"),
-            request.form.get(f"tag_radio_{i}"),
-            request.form.get(f"id_radio_{i}"),
-            "",                                  # endereco_radio removido do formulário
-            request.form.get(f"canal_radio_{i}"),
+            cliente,                                      # Cliente
+            local,                                        # Local
+            setor,                                        # Setor
+            request.form.get(f"qual_radio_{i}"),          # Qual Radio
+            request.form.get(f"fabricante_radio_{i}"),    # Fabricante
+            request.form.get(f"tag_radio_{i}"),           # Tag
+            request.form.get(f"id_radio_{i}"),            # ID
+            request.form.get(f"canal_radio_{i}"),         # Canal
         ])
 
     if linhas_rad:
