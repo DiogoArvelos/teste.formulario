@@ -185,7 +185,6 @@ function mostrarETH(select, i) {
     let div = document.getElementById("extra_eth_" + i);
     div.innerHTML = "";
 
-    // ================= VIA CABO =================
     if (select.value === "Eth0") {
         div.innerHTML = `
             <input class="form-control mb-2"
@@ -202,7 +201,6 @@ function mostrarETH(select, i) {
         `;
     }
 
-    // ================= WI-FI =================
     if (select.value === "Wan") {
         div.innerHTML = `
             <input class="form-control mb-2"
@@ -325,8 +323,8 @@ function mostrarUP(select, i) {
     if (select.value === "ION") {
         div.innerHTML = `
             <input class="form-control mb-2"
-                   placeholder="ID (Ex: 1)"
-                   name="id_ion_${i}">
+                   placeholder="Endereço ID (Ex: 1)"
+                   name="device_address_${i}">
 
             <input class="form-control mb-2"
                    placeholder="Port (Ex: Com3)"
@@ -596,10 +594,6 @@ function gerarRadios(qtd) {
             <input class="form-control mb-2"
                    placeholder="ID (Ex: 1)"
                    name="id_radio_${i}">
-
-            <input class="form-control mb-2"
-                   placeholder="Addres (Ex: 1)"
-                   name="endereco_radio_${i}">
 
             <input class="form-control mb-2"
                    placeholder="Channel (Ex: 14)"
