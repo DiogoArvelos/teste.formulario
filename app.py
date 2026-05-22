@@ -100,17 +100,17 @@ def salvar():
         # -------- ION --------
         elif tipo == "ION":
             extra = [
-                "", "",                               # id1, id2
-                "",                                   # device_address
-                "", "", "", "",                       # tc, kc, kt, tensao
-                "", "", "", "", "",                   # threshold, serial, ti, tl, tp
-                request.form.get(f"id_ion_{i}"),
+                "", "",                                    # id1, id2
+                request.form.get(f"device_address_{i}"),  # endereço ID → device_address
+                "", "", "", "",                            # tc, kc, kt, tensao
+                "", "", "", "", "",                        # threshold, serial, ti, tl, tp
+                "",                                        # id_ion (não usado mais)
                 request.form.get(f"port_ion_{i}"),
                 request.form.get(f"protocol_ion_{i}"),
                 request.form.get(f"baudrate_ion_{i}"),
                 request.form.get(f"rxtimeout_ion_{i}"),
                 request.form.get(f"serialport_ion_{i}"),
-                "", ""                                # mac_ims, ip_ims
+                "", ""                                     # mac_ims, ip_ims
             ]
 
         # -------- KRON --------
@@ -288,7 +288,7 @@ def salvar():
             request.form.get(f"fabricante_radio_{i}"),
             request.form.get(f"tag_radio_{i}"),
             request.form.get(f"id_radio_{i}"),
-            request.form.get(f"endereco_radio_{i}"),
+            "",                                  # endereco_radio removido do formulário
             request.form.get(f"canal_radio_{i}"),
         ])
 
