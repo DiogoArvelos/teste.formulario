@@ -293,7 +293,7 @@ def salvar():
             request.form.get(f"fabricante_radio_{i}"),    # Fabricante
             request.form.get(f"tag_radio_{i}"),           # Tag
             request.form.get(f"id_radio_{i}"),            # ID
-            request.form.get(f"canal_radio_{i}"),         # Canal
+            request.form.get(f"canal_radio_{i}")          # Canal
         ])
 
     if linhas_rad:
@@ -319,7 +319,10 @@ def salvar():
             request.form.get(f"fabricante_gerador_{i}"),
             request.form.get(f"tag_gerador_{i}"),
             request.form.get(f"gateway_gerador_{i}"),
-            request.form.get(f"ip_gerador_{i}")
+            request.form.get(f"ip_gerador_{i}"),
+            request.form.get(f"baudrate_gerador_{i}"),
+            request.form.get(f"id_gerador_{i}"),
+            request.form.get(f"paridade_gerador_{i}")            
         ])
 
     if linhas_ger:
